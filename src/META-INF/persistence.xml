@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="eXceedVote" transaction-type="RESOURCE_LOCAL">
+	 <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+	 	<class>exceedvote.model.User</class>
+	 	<class>exceedvote.model.Project</class>
+	 	<class>exceedvote.model.Question</class>
+	 	<class>exceedvote.model.Vote</class>
+	 	<class>exceedvote.model.Login_log</class>
+	 	<class>exceedvote.model.Time</class>
+	 	<class>exceedvote.model.Role</class>
+		<properties>
+			<property name="eclipselink.target-database" value="MYSQL" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ckp" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<!-- Only enable on first time you run the program (create database tables from entity class) -->
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode"
+				value="both" />
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value=""/>
+		</properties>
+	</persistence-unit>
+</persistence>
