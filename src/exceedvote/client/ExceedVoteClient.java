@@ -10,9 +10,9 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPDigestAuthFilter;
 
+import exceedvote.model.Contestant;
 import exceedvote.model.dao.mongo.MongoContestantDAO;
 import exceedvote.model.dao.mongo.MongoDaoFactory;
-import exceedvote.new_model.Contestant;
  
 public class ExceedVoteClient {
  

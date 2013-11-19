@@ -1,4 +1,4 @@
-package exceedvote.new_model;
+package exceedvote.model;
 
 import java.util.Map;
 import javax.persistence.Entity;

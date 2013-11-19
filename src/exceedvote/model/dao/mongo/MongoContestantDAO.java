@@ -10,7 +10,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-import exceedvote.new_model.Contestant;
+import exceedvote.model.Contestant;
 
 public class MongoContestantDAO {
 	private DBCollection coll;

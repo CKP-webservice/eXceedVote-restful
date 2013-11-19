@@ -11,8 +11,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-import exceedvote.new_model.Contestant;
-import exceedvote.new_model.Criterion;
+import exceedvote.model.Contestant;
+import exceedvote.model.Criterion;
 
 public class MongoCriterionDAO {
 	private DBCollection coll;

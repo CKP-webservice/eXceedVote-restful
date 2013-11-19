@@ -11,7 +11,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-import exceedvote.new_model.Vote;
+import exceedvote.model.Vote;
 
 public class MongoVoteDAO {
 	private DBCollection coll;

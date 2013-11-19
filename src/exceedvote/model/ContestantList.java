@@ -1,4 +1,4 @@
-package exceedvote.new_model;
+package exceedvote.model;
 
 public class ContestantList {
 

@@ -1,4 +1,4 @@
-package exceedvote.new_model;
+package exceedvote.model;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
