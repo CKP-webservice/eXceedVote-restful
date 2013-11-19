@@ -28,11 +28,8 @@ public class MongoContestantDAO {
 			while(cursor.hasNext()) {
 				DBObject DBObj = cursor.next();
 				Integer contestantID = (Integer) DBObj.get("contestantID");
-				System.out.println(contestantID);
 				String name = (String) DBObj.get("name");
-				System.out.println(name);
 				String description = (String) DBObj.get("description");
-				System.out.println(description);
 				contestant = new Contestant(contestantID, name, description);
 				contestants.add(contestant);
 			}
@@ -49,11 +46,8 @@ public class MongoContestantDAO {
 		try {
 			DBObject DBObj = cursor.next();
 			Integer contestantID = (Integer) DBObj.get("contestantID");
-			System.out.println(contestantID);
 			String name = (String) DBObj.get("name");
-			System.out.println(name);
 			String description = (String) DBObj.get("description");
-			System.out.println(description);
 			contestant = new Contestant(contestantID, name, description);
 		} finally {
 		   cursor.close();
