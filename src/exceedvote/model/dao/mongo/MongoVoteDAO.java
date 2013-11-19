@@ -30,10 +30,10 @@ public class MongoVoteDAO {
 	}
 	
 	public void save(Vote vote) {
-	    
+		coll.save(vote);
 	}
 	
 	public void delete(Vote vote) {
-	    
+	    coll.save(vote);
 	}
 }

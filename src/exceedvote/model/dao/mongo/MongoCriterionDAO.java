@@ -30,10 +30,10 @@ public class MongoCriterionDAO {
 	}
 	
 	public void save(Criterion criterion) {
-	    
+	    coll.save(criterion);
 	}
 	
 	public void delete(Criterion criterion) {
-	    
+		coll.remove(criterion);
 	}
 }

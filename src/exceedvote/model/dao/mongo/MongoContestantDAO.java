@@ -3,9 +3,12 @@ package exceedvote.model.dao.mongo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import exceedvote.new_model.Contestant;
 
@@ -18,26 +21,22 @@ public class MongoContestantDAO {
 	}
 	
 	public List<Contestant> findAll() {
-		List<Contestant> contestants = new ArrayList<Contestant>();
-		DBCursor cursorDoc = coll.find();
-        while(cursorDoc.hasNext()) {
-        	Contestant contestant = (Contestant)cursorDoc.next();
-        	contestants.add(contestant);
-        }
-	    return contestants;
+		return null;
 	}
 	
 	public Contestant findById(int id) {
-	    //Contestant contestant = new Contestant(id);
-	    //DBCursor c = coll.find(contestant);
 	    return null;
 	}
 	
+	public DBCollection getCollection() {
+		return coll;
+	}
+	
 	public void save(Contestant contestant) {
-	    
+	    coll.save(contestant);
 	}
 	
 	public void delete(Contestant contestant) {
-	    
+	    coll.remove(contestant);
 	}
 }

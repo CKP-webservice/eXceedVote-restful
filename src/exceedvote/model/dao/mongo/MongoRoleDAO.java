@@ -31,10 +31,10 @@ public class MongoRoleDAO {
 	}
 	
 	public void save(Role role) {
-	    
+	    coll.save(role);
 	}
 	
 	public void delete(Role role) {
-	    
+	    coll.save(role);
 	}
 }

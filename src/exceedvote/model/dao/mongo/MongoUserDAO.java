@@ -31,10 +31,10 @@ public class MongoUserDAO {
 	}
 	
 	public void save(User user) {
-	    
+		coll.save(user);
 	}
 	
 	public void delete(User user) {
-	    
+	    coll.remove(user);
 	}
 }

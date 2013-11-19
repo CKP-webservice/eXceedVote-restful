@@ -1,9 +1,16 @@
 package exceedvote.client;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+
+import com.mongodb.DBCursor;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPDigestAuthFilter;
 
+import exceedvote.model.dao.mongo.MongoContestantDAO;
+import exceedvote.model.dao.mongo.MongoDaoFactory;
 import exceedvote.new_model.Contestant;
  
 public class ExceedVoteClient {
@@ -37,5 +44,16 @@ public class ExceedVoteClient {
 	  }
  
 	}*/
+		Contestant con = new Contestant("test", "ggwp");
+		Contestant con2 = new Contestant("test2", "ggwp2");
+		try {
+			MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+			contestantDAO.save(con);
+			contestantDAO.save(con2);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}	
 }
