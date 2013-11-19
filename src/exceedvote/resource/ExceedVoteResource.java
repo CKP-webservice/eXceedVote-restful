@@ -1,5 +1,8 @@
 package exceedvote.resource;
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,9 +14,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import exceedvote.model.ProjectList;
-import exceedvote.model.QuestionList;
-import exceedvote.model.dao.DaoFactory;
+import exceedvote.model.Contestant;
+import exceedvote.model.dao.mongo.MongoDaoFactory;
 
 @Path("/")
 public class ExceedVoteResource {
@@ -22,9 +24,13 @@ public class ExceedVoteResource {
 	@Path("contestant")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getContestants(@Context SecurityContext sec) {
-		ProjectList pl = new ProjectList();
-		pl.setProjects(DaoFactory.getInstance().getProjectDAO().findAll());
-		return Response.ok().entity(pl).build();
+		List<Contestant> contestants = null;
+		try {
+			contestants = MongoDaoFactory.getInstance().getContestantDAO().findAll();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Response.ok().entity(contestants).build();
 	}
 	
 	@GET
