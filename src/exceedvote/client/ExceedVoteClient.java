@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -50,6 +51,7 @@ public class ExceedVoteClient {
 			MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
 			contestantDAO.save(con);
 			contestantDAO.save(con2);
+			Contestant con3 = contestantDAO.findById(1);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
