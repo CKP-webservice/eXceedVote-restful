@@ -38,6 +38,12 @@ public class Vote extends BasicDBObject {
 		put("criterionID", criterionID);
 	}
 
+	public Vote(int voteID, int userID, int criterionID) {
+		this.voteID = voteID;
+		this.userID = userID;
+		this.criterionID = criterionID;
+	}
+
 	public int getVoteID() {
 		return voteID;
 	}

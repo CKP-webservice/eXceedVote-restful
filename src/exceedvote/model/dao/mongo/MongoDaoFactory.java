@@ -6,9 +6,6 @@ import java.net.UnknownHostException;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 
-import exceedvote.model.dao.DaoFactory;
-import exceedvote.model.dao.jpa.JpaDaoFactory;
-
 public class MongoDaoFactory {
 	private DB db;
 	

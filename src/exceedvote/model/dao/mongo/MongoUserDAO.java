@@ -1,14 +1,16 @@
 package exceedvote.model.dao.mongo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-import exceedvote.model.dao.VoteDAO;
 import exceedvote.new_model.Criterion;
 import exceedvote.new_model.User;
 
@@ -21,13 +23,44 @@ public class MongoUserDAO {
 	}
 	
 	public List<User> findAll() {
-	    return null;
+		List<User> users = new ArrayList<User>();
+		DBCursor cursor = coll.find();
+		User user = null;
+		try {
+			while(cursor.hasNext()) {
+				DBObject DBObj = cursor.next();
+				Integer userID = (Integer) DBObj.get("userID");
+				Integer roleID = (Integer) DBObj.get("roleID");
+				Integer contestantID = (Integer) DBObj.get("contestantID");
+				String username = (String) DBObj.get("username");
+				String password = (String) DBObj.get("password");
+				String email = (String) DBObj.get("email");
+				user = new User(userID, roleID, contestantID, username, password, email);
+				users.add(user);
+			}
+		} finally {
+		   cursor.close();
+		}
+		return users;
 	}
 	
 	public User findById(int id) {
-	    //User user = new User(id);
-	    //DBCursor c = coll.find(user);
-		return null;
+		BasicDBObject query = new BasicDBObject("userID", id);
+		DBCursor cursor = coll.find(query);
+		User user = null;
+		try {
+			DBObject DBObj = cursor.next();
+			Integer userID = (Integer) DBObj.get("userID");
+			Integer roleID = (Integer) DBObj.get("roleID");
+			Integer contestantID = (Integer) DBObj.get("contestantID");
+			String username = (String) DBObj.get("username");
+			String password = (String) DBObj.get("password");
+			String email = (String) DBObj.get("email");
+			user = new User(userID, roleID, contestantID, username, password, email);
+		} finally {
+		   cursor.close();
+		}
+		return user;
 	}
 	
 	public void save(User user) {

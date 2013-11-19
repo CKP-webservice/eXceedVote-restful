@@ -35,6 +35,13 @@ public class Role extends BasicDBObject {
 		put("criterionVote", criterionVote);
 	}
 
+	public Role(int roleID, String name, int criterionVote) {
+		super();
+		this.roleID = roleID;
+		this.name = name;
+		this.criterionVote = criterionVote;
+	}
+
 	public int getRoleID() {
 		return roleID;
 	}

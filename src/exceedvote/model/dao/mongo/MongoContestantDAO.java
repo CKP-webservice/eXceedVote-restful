@@ -21,11 +21,44 @@ public class MongoContestantDAO {
 	}
 	
 	public List<Contestant> findAll() {
-		return null;
+		List<Contestant> contestants = new ArrayList<Contestant>();
+		DBCursor cursor = coll.find();
+		Contestant contestant = null;
+		try {
+			while(cursor.hasNext()) {
+				DBObject DBObj = cursor.next();
+				Integer contestantID = (Integer) DBObj.get("contestantID");
+				System.out.println(contestantID);
+				String name = (String) DBObj.get("name");
+				System.out.println(name);
+				String description = (String) DBObj.get("description");
+				System.out.println(description);
+				contestant = new Contestant(contestantID, name, description);
+				contestants.add(contestant);
+			}
+		} finally {
+		   cursor.close();
+		}
+		return contestants;
 	}
 	
 	public Contestant findById(int id) {
-	    return null;
+		BasicDBObject query = new BasicDBObject("contestantID", id);
+		DBCursor cursor = coll.find(query);
+		Contestant contestant = null;
+		try {
+			DBObject DBObj = cursor.next();
+			Integer contestantID = (Integer) DBObj.get("contestantID");
+			System.out.println(contestantID);
+			String name = (String) DBObj.get("name");
+			System.out.println(name);
+			String description = (String) DBObj.get("description");
+			System.out.println(description);
+			contestant = new Contestant(contestantID, name, description);
+		} finally {
+		   cursor.close();
+		}
+		return contestant;
 	}
 	
 	public DBCollection getCollection() {

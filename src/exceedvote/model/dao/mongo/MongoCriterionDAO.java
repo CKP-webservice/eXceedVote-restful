@@ -1,14 +1,17 @@
 package exceedvote.model.dao.mongo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-import exceedvote.model.dao.VoteDAO;
+import exceedvote.new_model.Contestant;
 import exceedvote.new_model.Criterion;
 
 public class MongoCriterionDAO {
@@ -20,13 +23,36 @@ public class MongoCriterionDAO {
 	}
 	
 	public List<Criterion> findAll() {
-	    return null;
+		List<Criterion> criteria = new ArrayList<Criterion>();
+		DBCursor cursor = coll.find();
+		Criterion criterion = null;
+		try {
+			while(cursor.hasNext()) {
+				DBObject DBObj = cursor.next();
+				Integer criterionID = (Integer) DBObj.get("criterionID");
+				String name = (String) DBObj.get("name");
+				criterion = new Criterion(criterionID, name);
+				criteria.add(criterion);
+			}
+		} finally {
+		   cursor.close();
+		}
+		return criteria;
 	}
 	
 	public Criterion findById(int id) {
-	    //Criterion criterion = new Criterion(id);
-	    //DBCursor c = coll.find(criterion);
-		return null;
+		BasicDBObject query = new BasicDBObject("criterionID", id);
+		DBCursor cursor = coll.find(query);
+		Criterion criterion = null;
+		try {
+			DBObject DBObj = cursor.next();
+			Integer criterionID = (Integer) DBObj.get("criterionID");
+			String name = (String) DBObj.get("name");
+			criterion = new Criterion(criterionID, name);
+		} finally {
+		   cursor.close();
+		}
+		return criterion;
 	}
 	
 	public void save(Criterion criterion) {

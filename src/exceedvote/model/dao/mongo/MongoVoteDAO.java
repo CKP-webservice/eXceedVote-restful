@@ -1,14 +1,16 @@
 package exceedvote.model.dao.mongo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-import exceedvote.model.dao.VoteDAO;
 import exceedvote.new_model.Vote;
 
 public class MongoVoteDAO {
@@ -20,13 +22,38 @@ public class MongoVoteDAO {
 	}
 	
 	public List<Vote> findAll() {
-	    return null;
+		List<Vote> votes = new ArrayList<Vote>();
+		DBCursor cursor = coll.find();
+		Vote vote = null;
+		try {
+			while(cursor.hasNext()) {
+				DBObject DBObj = cursor.next();
+				Integer voteID = (Integer) DBObj.get("voteID");
+				Integer userID = (Integer) DBObj.get("userID");
+				Integer criterionID = (Integer) DBObj.get("criterionID");
+				vote = new Vote(voteID, userID, criterionID);
+				votes.add(vote);
+			}
+		} finally {
+		   cursor.close();
+		}
+		return votes;
 	}
 	
 	public Vote findById(int id) {
-	    //Vote vote = new Vote(id);
-	    //DBCursor c = coll.find(vote);
-		return null;
+		BasicDBObject query = new BasicDBObject("voteID", id);
+		DBCursor cursor = coll.find(query);
+		Vote vote = null;
+		try {
+			DBObject DBObj = cursor.next();
+			Integer voteID = (Integer) DBObj.get("voteID");
+			Integer userID = (Integer) DBObj.get("userID");
+			Integer criterionID = (Integer) DBObj.get("criterionID");
+			vote = new Vote(voteID, userID, criterionID);
+		} finally {
+		   cursor.close();
+		}
+		return vote;
 	}
 	
 	public void save(Vote vote) {
