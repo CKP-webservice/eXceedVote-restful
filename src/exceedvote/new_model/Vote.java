@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mongodb.BasicDBObject;
 
+import exceedvote.helper.MongoHelper;
+
+import java.io.IOException;
 import java.util.Map;
 
 @XmlRootElement
@@ -22,7 +25,14 @@ public class Vote extends BasicDBObject {
 		
 	}
 	
-	public Vote(int voteID, int userID, int criterionID) {
+	public Vote(int userID, int criterionID) {
+		try {
+			voteID = Integer.parseInt(MongoHelper.getNextId("voteID"));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		put("voteID", voteID);
 		put("userID", userID);
 		put("criterionID", criterionID);

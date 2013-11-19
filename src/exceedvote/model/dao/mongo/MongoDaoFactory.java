@@ -1,9 +1,13 @@
 package exceedvote.model.dao.mongo;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+
+import exceedvote.model.dao.DaoFactory;
+import exceedvote.model.dao.jpa.JpaDaoFactory;
 
 public class MongoDaoFactory {
 	private DB db;
@@ -13,6 +17,13 @@ public class MongoDaoFactory {
 	private MongoCriterionDAO criterionDAO;
 	private MongoUserDAO userDAO;
 	private MongoRoleDAO roleDAO;
+	
+	private static MongoDaoFactory daoFactory;
+	public static MongoDaoFactory getInstance() throws IOException
+	{
+		if(daoFactory == null) daoFactory = new MongoDaoFactory();
+		return daoFactory;
+	}
 	
 	public MongoDaoFactory() throws UnknownHostException {
 		MongoClient mongoClient = new MongoClient( "ds053428.mongolab.com", 53428);
@@ -45,4 +56,9 @@ public class MongoDaoFactory {
 		if(this.roleDAO == null) this.roleDAO = new MongoRoleDAO(db);
 		return this.roleDAO;
 	}
+	
+	public DB getDB() {
+		return db;
+	}
 }
+

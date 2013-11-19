@@ -1,9 +1,13 @@
 package exceedvote.new_model;
 
+import java.io.IOException;
+
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mongodb.BasicDBObject;
+
+import exceedvote.helper.MongoHelper;
 
 @XmlRootElement(name="criterion")
 @Entity
@@ -17,7 +21,14 @@ public class Criterion extends BasicDBObject {
 		
 	}
 	
-	public Criterion(int criterionID, String name) {
+	public Criterion(String name) {
+		try {
+			criterionID = Integer.parseInt(MongoHelper.getNextId("criterionID"));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		put("criterionID", criterionID);
 		put("name", name);
 	}

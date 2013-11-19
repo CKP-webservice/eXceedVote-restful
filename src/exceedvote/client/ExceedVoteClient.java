@@ -3,13 +3,14 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPDigestAuthFilter;
+
+import exceedvote.new_model.Contestant;
  
 public class ExceedVoteClient {
  
-  public static void main(String[] args) {
- 
-	try {
- 
+	public static void main(String[] args) {
+		/*try {
+		 
 		Client client = Client.create();
 		//client.addFilter(new HTTPDigestAuthFilter("chanon", "gg"));
 		
@@ -35,5 +36,6 @@ public class ExceedVoteClient {
  
 	  }
  
-	}
+	}*/
+	}	
 }

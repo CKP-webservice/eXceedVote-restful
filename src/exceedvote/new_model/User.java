@@ -1,9 +1,13 @@
 package exceedvote.new_model;
 
+import java.io.IOException;
+
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mongodb.BasicDBObject;
+
+import exceedvote.helper.MongoHelper;
 
 @XmlRootElement
 @Entity
@@ -21,7 +25,14 @@ public class User extends BasicDBObject {
 		
 	}
 	
-	public User(int userID, int roleID, int contestantID, String username, String password, String email) {
+	public User(int roleID, int contestantID, String username, String password, String email) {
+		try {
+			userID = Integer.parseInt(MongoHelper.getNextId("userID"));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		put("userID", userID);
 		put("roleID", roleID);
 		put("contestantID", contestantID);
