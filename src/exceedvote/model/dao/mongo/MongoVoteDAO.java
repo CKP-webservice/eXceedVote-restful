@@ -1,14 +1,17 @@
 package exceedvote.model.dao.mongo;
 
+import java.util.List;
 import java.util.Set;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 
 import exceedvote.model.dao.VoteDAO;
+import exceedvote.new_model.Vote;
 
-public class MongoVoteDAO implements VoteDAO {
+public class MongoVoteDAO {
 	private DBCollection coll;
 	
 	public MongoVoteDAO(DB db) {
@@ -16,55 +19,21 @@ public class MongoVoteDAO implements VoteDAO {
 		coll.setObjectClass(Vote.class);
 	}
 	
-	@Override
-	public Vote find(int id) {
-		return em.find(Vote.class, id);
-	}
-
-	@Override
-	public void save(Vote vote) {
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		em.persist(vote);
-		tx.commit();
-	}
-
-	@Override
-	public void delete(Vote vote) {
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		em.remove(vote);
-		tx.commit();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Vote> findAll() {
-		String query = "SELECT v FROM Vote v";
-		return em.createQuery(query).getResultList();
+	    return null;
 	}
-
-	@Override
-	public List<Vote> query(String q) {
-		// TODO Auto-generated method stub
+	
+	public Vote findById(int id) {
+	    //Vote vote = new Vote(id);
+	    //DBCursor c = coll.find(vote);
 		return null;
 	}
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Vote> findByQuestion(Question question) {
-		int qid = question.getId();
-		String query = "SELECT v from Vote v WHERE v.questionID = :id";
-		Query q = em.createQuery(query);
-		q.setParameter("id", qid);
-		return q.getResultList();
+	
+	public void save(Vote vote) {
+	    
 	}
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Vote> findByQuestionIdAndUserId(int q_id, int u_id) {
-		String query = "SELECT v from Vote v Where v.questionID = :qid and v.userID = :uid";
-		Query q = em.createQuery(query);
-		q.setParameter("qid", q_id);
-		q.setParameter("uid", u_id);
-		return q.getResultList();
+	
+	public void delete(Vote vote) {
+	    
 	}
 }

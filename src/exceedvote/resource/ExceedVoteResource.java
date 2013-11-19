@@ -21,7 +21,7 @@ public class ExceedVoteResource {
 	@GET
 	@Path("contestant")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-	public Response getContestantss(@Context SecurityContext sec) {
+	public Response getContestants(@Context SecurityContext sec) {
 		ProjectList pl = new ProjectList();
 		pl.setProjects(DaoFactory.getInstance().getProjectDAO().findAll());
 		return Response.ok().entity(pl).build();
