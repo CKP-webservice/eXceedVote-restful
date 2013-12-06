@@ -2,9 +2,7 @@ package exceedvote.resource;
 
 import java.io.IOException;
 
-import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.annotation.WebServlet;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,7 +13,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import javax.xml.ws.WebServiceRef;
+
+import com.sun.security.auth.UserPrincipal;
 
 import exceedvote.model.ContestantList;
 import exceedvote.model.CriterionList;
@@ -26,10 +25,11 @@ import exceedvote.model.dao.mongo.MongoDaoFactory;
 public class ExceedVoteResource {
 	
 	
+	
 	@GET
 	@RolesAllowed({"admin"})
 	@Produces(MediaType.TEXT_HTML)
-	public Response get() {
+	public Response get(@Context SecurityContext sec) {
 		return Response.ok().entity("<html><head><title>WORKING</title></head><body>SERVER IS WORKING</body></html>").build();
 		
 	}
@@ -38,10 +38,10 @@ public class ExceedVoteResource {
 	@Path("contestant")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getContestants(@Context SecurityContext sec) {
-		ContestantList contestantList = new ContestantList();
+		ContestantList contestant = new ContestantList();
 		try {
-			contestantList.setContestantList( MongoDaoFactory.getInstance().getContestantDAO().findAll());
-			return Response.ok().entity(contestantList).build();
+			contestant.setContestantList( MongoDaoFactory.getInstance().getContestantDAO().findAll());
+			return Response.ok().entity(contestant).build();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

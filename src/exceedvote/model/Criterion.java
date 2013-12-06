@@ -3,6 +3,8 @@ package exceedvote.model;
 import java.io.IOException;
 
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mongodb.BasicDBObject;
@@ -10,6 +12,7 @@ import com.mongodb.BasicDBObject;
 import exceedvote.helper.MongoHelper;
 
 @XmlRootElement(name="criterion")
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Criterion extends BasicDBObject {
 	private static final long serialVersionUID = 1L;

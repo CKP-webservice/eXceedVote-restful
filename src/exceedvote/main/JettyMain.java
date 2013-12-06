@@ -9,9 +9,12 @@ import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.authentication.DigestAuthenticator;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.NCSARequestLog;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.security.Constraint;
@@ -19,6 +22,8 @@ import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 import com.sun.jersey.spi.container.servlet.ServletContainer;
+
+import exceedvote.helper.ConstraintHelper;
 
 /**
  * Deploy a RESTful server using Jersey in an embedded Jetty server.
@@ -32,12 +37,11 @@ public class JettyMain {
 	private static Server server;
 	
 	
-	private static void startServer( int port ) throws BindException, Exception
+	private static void startServer( int port , String path) throws BindException, Exception
 	{		
 		//Class clazz =  ServletContainer.class; // uncomment to help Eclipse locate import
 		server = new Server(port);
 		ServletHolder sh = new ServletHolder(ServletContainer.class);
-		
 		// set this parameter to a colon-delimited list of package names
 		// the packages are where your REST resources are
 		final String RESOURCES = "exceedvote.resource";
@@ -68,7 +72,7 @@ public class JettyMain {
 		
 // Map the context path to servlet
 		
-		context.setContextPath("/");
+		context.setContextPath(path);
 		context.addServlet(sh, "/*");
 		
 		HashLoginService realm = new HashLoginService("EXCEEDVOTE");
@@ -78,33 +82,22 @@ public class JettyMain {
         security.setAuthenticator(new DigestAuthenticator());
         security.setLoginService(realm);
         
-        List<ConstraintMapping> constraintMappings = new ArrayList<ConstraintMapping>();
-        
-        Constraint constraint = new Constraint("SecureTest", "test");
-        constraint.setAuthenticate(true);
-        constraint.setRoles(new String[]{"user","admin","test"});
-        ConstraintMapping mapping = new ConstraintMapping();
-        mapping.setConstraint(constraint);
-        mapping.setPathSpec("/*");
-        constraintMappings.add(mapping);
-        
-        
-        Constraint constraint2 = new Constraint("ContestantConstraint","admin");
-        constraint2.setAuthenticate(true);
-        constraint2.setRoles(new String[]{"admin"});
-        ConstraintMapping mapping2 = new ConstraintMapping();
-        mapping2.setConstraint(constraint2);
-        mapping2.setPathSpec("/contestant");
-        constraintMappings.add(mapping2);
-        
-        security.setConstraintMappings(constraintMappings);
+        setConstraint(security);
         
         HandlerCollection handlers = new HandlerCollection();
-        handlers.setHandlers(new Handler[]
-        { context, new DefaultHandler() });
+        ContextHandlerCollection contexts = new ContextHandlerCollection();
+        RequestLogHandler requestLogHandler = new RequestLogHandler();
+        NCSARequestLog requestLog = new NCSARequestLog();
+        requestLog.setRetainDays(90);
+        requestLog.setAppend(true);
+        requestLog.setExtended(false);
+        requestLog.setLogTimeZone("GMT+7");
+        requestLogHandler.setRequestLog(requestLog);
+        
+        handlers.setHandlers(new Handler[]{ context, new DefaultHandler() ,requestLogHandler });
 
 		
-		server.setHandler(context);
+		server.setHandler(handlers);
  
 		QueuedThreadPool qtp = new QueuedThreadPool(10);
 		qtp.setName("ApiServe");
@@ -113,14 +106,43 @@ public class JettyMain {
 		
 	}
 	
+	private static void setConstraint(ConstraintSecurityHandler security) {
+		List<ConstraintMapping> constraintMappings = new ArrayList<ConstraintMapping>();
+        
+		ConstraintHelper root = new ConstraintHelper("root page", "test", new String[]{"user","admin","test"}, "/*", true);
+        constraintMappings.add(root.getConstraintMapping());
+        
+        ConstraintHelper contestants = new ConstraintHelper("contestant", "admin", new String[]{"admin","test"}, "/contestant", true);
+        constraintMappings.add(contestants.getConstraintMapping());
+		
+        security.setConstraintMappings(constraintMappings);
+	}
+
 	public static void stopServer( ) throws Exception {
 		if (server != null) server.stop();
 	}
 	
 	public static void main(String[] args) throws BindException, Exception {
 		int port = 8080;
-		System.out.println("Starting server...");
-		startServer( port );
-		System.out.printf("Server started on port %d\n",  port);
+		String path = "/";
+		if (args.length > 0) try {
+			port = Integer.valueOf(args[0]);
+			if (args.length > 1) {
+				path = args[1];
+			}
+				port = Integer.valueOf(args[0]);
+		} catch ( NumberFormatException nfe ) {
+			usage();
+		}
+		
+		System.out.printf("Starting server on port %d | path \"%s\" ...\n", port, path);
+		startServer( port , path );
+		System.out.printf("Server started on port %d | path \"%s\" \n",  port, path);
+	}
+
+	private static void usage() {
+		System.out.println("usage: java -jar appname.jar [port] [path]");
+		System.exit(1);
+		
 	}
 }
