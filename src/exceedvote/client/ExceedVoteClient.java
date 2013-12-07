@@ -1,5 +1,6 @@
 package exceedvote.client;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,9 +11,17 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPDigestAuthFilter;
 
+import exceedvote.model.Ballot;
 import exceedvote.model.Contestant;
+import exceedvote.model.Criterion;
+import exceedvote.model.Role;
+import exceedvote.model.User;
+import exceedvote.model.Vote;
 import exceedvote.model.dao.mongo.MongoContestantDAO;
+import exceedvote.model.dao.mongo.MongoCriterionDAO;
 import exceedvote.model.dao.mongo.MongoDaoFactory;
+import exceedvote.model.dao.mongo.MongoUserDAO;
+import exceedvote.model.dao.mongo.MongoVoteDAO;
  
 public class ExceedVoteClient {
  
@@ -46,11 +55,20 @@ public class ExceedVoteClient {
  
 	}*/
 		Contestant con = new Contestant("test", "ggwp");
-		Contestant con2 = new Contestant("test2", "ggwp2");
+		Criterion cri = new Criterion("lol");
 		MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+		MongoCriterionDAO criterionDAO = MongoDaoFactory.getInstance().getCriterionDAO();
+		criterionDAO.save(cri);
 		contestantDAO.save(con);
-		contestantDAO.save(con2);
-		Contestant con3 = contestantDAO.findById(1);
-		System.out.println(con3);
+		Ballot ballot = new Ballot(1, 1);
+		List<Ballot> ballots = new ArrayList<Ballot>();
+		ballots.add(ballot);
+		Role role = new Role("name", 5);
+		User user = new User(role, con, "username", "password", "email");
+		MongoUserDAO userDAO = MongoDaoFactory.getInstance().getUserDAO();
+		MongoVoteDAO voteDAO = MongoDaoFactory.getInstance().getVoteDAO();
+		Vote vote = new Vote(user, cri, ballots);
+		userDAO.save(user);
+		voteDAO.save(vote);
 	}	
 }

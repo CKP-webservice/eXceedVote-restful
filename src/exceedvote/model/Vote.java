@@ -29,7 +29,7 @@ public class Vote extends BasicDBObject {
 		
 	}
 	
-	public Vote(User user, Criterion criterion) {
+	public Vote(User user, Criterion criterion, List<Ballot> ballots) {
 		try {
 			voteID = Integer.parseInt(MongoHelper.getNextId("voteID"));
 		} catch (NumberFormatException e) {
@@ -40,6 +40,7 @@ public class Vote extends BasicDBObject {
 		put("voteID", voteID);
 		put("userID", user.getUserID());
 		put("criterionID", criterion.getCriterionID());
+		put("ballots", ballots);
 	}
 
 	public Vote(int voteID, User user, Criterion criterion) {
