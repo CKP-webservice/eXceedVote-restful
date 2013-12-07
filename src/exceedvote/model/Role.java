@@ -2,7 +2,6 @@ package exceedvote.model;
 
 import java.io.IOException;
 
-import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mongodb.BasicDBObject;
@@ -10,7 +9,6 @@ import com.mongodb.BasicDBObject;
 import exceedvote.helper.MongoHelper;
 
 @XmlRootElement
-@Entity
 public class Role extends BasicDBObject {
 	private static final long serialVersionUID = 1L;
 	

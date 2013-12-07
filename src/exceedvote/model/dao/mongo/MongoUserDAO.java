@@ -11,7 +11,9 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+import exceedvote.model.Contestant;
 import exceedvote.model.Criterion;
+import exceedvote.model.Role;
 import exceedvote.model.User;
 
 public class MongoUserDAO {
@@ -31,11 +33,15 @@ public class MongoUserDAO {
 				DBObject DBObj = cursor.next();
 				Integer userID = (Integer) DBObj.get("userID");
 				Integer roleID = (Integer) DBObj.get("roleID");
+				MongoRoleDAO roleDAO = MongoDaoFactory.getInstance().getRoleDAO();
+				MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+				Role role = roleDAO.findById(roleID); 
 				Integer contestantID = (Integer) DBObj.get("contestantID");
+				Contestant contestant = contestantDAO.findById(contestantID);
 				String username = (String) DBObj.get("username");
 				String password = (String) DBObj.get("password");
 				String email = (String) DBObj.get("email");
-				user = new User(userID, roleID, contestantID, username, password, email);
+				user = new User(userID, role, contestant, username, password, email);
 				users.add(user);
 			}
 		} finally {
@@ -52,11 +58,15 @@ public class MongoUserDAO {
 			DBObject DBObj = cursor.next();
 			Integer userID = (Integer) DBObj.get("userID");
 			Integer roleID = (Integer) DBObj.get("roleID");
+			MongoRoleDAO roleDAO = MongoDaoFactory.getInstance().getRoleDAO();
+			MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+			Role role = roleDAO.findById(roleID); 
 			Integer contestantID = (Integer) DBObj.get("contestantID");
+			Contestant contestant = contestantDAO.findById(contestantID);
 			String username = (String) DBObj.get("username");
 			String password = (String) DBObj.get("password");
 			String email = (String) DBObj.get("email");
-			user = new User(userID, roleID, contestantID, username, password, email);
+			user = new User(userID, role, contestant, username, password, email);
 		} finally {
 		   cursor.close();
 		}

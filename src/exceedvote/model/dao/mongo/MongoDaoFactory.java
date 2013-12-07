@@ -16,14 +16,20 @@ public class MongoDaoFactory {
 	private MongoRoleDAO roleDAO;
 	
 	private static MongoDaoFactory daoFactory;
-	public static MongoDaoFactory getInstance() throws IOException
+	public static MongoDaoFactory getInstance()
 	{
 		if(daoFactory == null) daoFactory = new MongoDaoFactory();
 		return daoFactory;
 	}
 	
-	public MongoDaoFactory() throws UnknownHostException {
-		MongoClient mongoClient = new MongoClient( "ds053428.mongolab.com", 53428);
+	public MongoDaoFactory() {
+		MongoClient mongoClient = null;
+		try {
+			mongoClient = new MongoClient( "ds053428.mongolab.com", 53428);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		db = mongoClient.getDB("exceedvote");
 		char[] pass = {'c', 'k', 'p', 'e', 'x', 'c', 'e', 'e', 'd', 'v', 'o', 't', 'e'};
 		boolean auth = db.authenticate("exceedvote", pass);

@@ -2,7 +2,7 @@ package exceedvote.model;
 
 import java.io.IOException;
 
-import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mongodb.BasicDBObject;
@@ -10,13 +10,13 @@ import com.mongodb.BasicDBObject;
 import exceedvote.helper.MongoHelper;
 
 @XmlRootElement
-@Entity
 public class User extends BasicDBObject {
 	private static final long serialVersionUID = 1L;
 	
+	@XmlElement(name="id")
 	private int userID;
-	private int roleID;
-	private int contestantID;
+	private Role role;
+	private Contestant contestant;
 	private String username;
 	private String password;
 	private String email;
@@ -25,7 +25,7 @@ public class User extends BasicDBObject {
 		
 	}
 	
-	public User(int roleID, int contestantID, String username, String password, String email) {
+	public User(Role role, Contestant contestant, String username, String password, String email) {
 		try {
 			userID = Integer.parseInt(MongoHelper.getNextId("userID"));
 		} catch (NumberFormatException e) {
@@ -34,17 +34,17 @@ public class User extends BasicDBObject {
 			e.printStackTrace();
 		}
 		put("userID", userID);
-		put("roleID", roleID);
-		put("contestantID", contestantID);
+		put("roleID", role.getRoleID());
+		put("contestantID", contestant.getContestantID());
 		put("username", username);
 		put("password", password);
 		put("email", email);
 	}
 
-	public User(int userID, int roleID, int contestantID, String username, String password, String email) {
+	public User(int userID, Role role, Contestant contestant, String username, String password, String email) {
 		this.userID = userID;
-		this.roleID = roleID;
-		this.contestantID = contestantID;
+		this.role = role;
+		this.contestant = contestant;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -58,20 +58,20 @@ public class User extends BasicDBObject {
 		this.userID = userID;
 	}
 
-	public int getRoleID() {
-		return roleID;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoleID(int roleID) {
-		this.roleID = roleID;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
-	public int getContestantID() {
-		return contestantID;
+	public Contestant getContestant() {
+		return contestant;
 	}
 
-	public void setContestantID(int contestantID) {
-		this.contestantID = contestantID;
+	public void setContestant(Contestant contestant) {
+		this.contestant = contestant;
 	}
 
 	public String getUsername() {

@@ -11,6 +11,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+import exceedvote.model.Criterion;
+import exceedvote.model.User;
 import exceedvote.model.Vote;
 
 public class MongoVoteDAO {
@@ -29,9 +31,13 @@ public class MongoVoteDAO {
 			while(cursor.hasNext()) {
 				DBObject DBObj = cursor.next();
 				Integer voteID = (Integer) DBObj.get("voteID");
+				MongoUserDAO userDAO = MongoDaoFactory.getInstance().getUserDAO();
+				MongoCriterionDAO criterionDAO = MongoDaoFactory.getInstance().getCriterionDAO();
 				Integer userID = (Integer) DBObj.get("userID");
+				User user = userDAO.findById(userID);
 				Integer criterionID = (Integer) DBObj.get("criterionID");
-				vote = new Vote(voteID, userID, criterionID);
+				Criterion criterion = criterionDAO.findById(criterionID);
+				vote = new Vote(voteID, user, criterion);
 				votes.add(vote);
 			}
 		} finally {
@@ -47,9 +53,13 @@ public class MongoVoteDAO {
 		try {
 			DBObject DBObj = cursor.next();
 			Integer voteID = (Integer) DBObj.get("voteID");
+			MongoUserDAO userDAO = MongoDaoFactory.getInstance().getUserDAO();
+			MongoCriterionDAO criterionDAO = MongoDaoFactory.getInstance().getCriterionDAO();
 			Integer userID = (Integer) DBObj.get("userID");
+			User user = userDAO.findById(userID);
 			Integer criterionID = (Integer) DBObj.get("criterionID");
-			vote = new Vote(voteID, userID, criterionID);
+			Criterion criterion = criterionDAO.findById(criterionID);
+			vote = new Vote(voteID, user, criterion);
 		} finally {
 		   cursor.close();
 		}

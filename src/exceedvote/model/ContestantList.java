@@ -3,7 +3,6 @@ package exceedvote.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,7 +10,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 
-@Entity
 @XmlRootElement(name="contestants")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ContestantList {
@@ -28,5 +26,9 @@ public class ContestantList {
 
 	public List<Contestant> getContestantList() {
 		return contestantList;
+	}
+	
+	public void add(Contestant contestant) {
+		this.contestantList.add(contestant);
 	}
 }

@@ -1,6 +1,6 @@
 package exceedvote.model;
 
-import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mongodb.BasicDBObject;
@@ -8,24 +8,25 @@ import com.mongodb.BasicDBObject;
 import exceedvote.helper.MongoHelper;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
-@XmlRootElement
-@Entity
+@XmlRootElement(name="vote")
 public class Vote extends BasicDBObject {
 	private static final long serialVersionUID = 1L;
-	
+	@XmlElement(name="id")
 	private int voteID;
-	private int userID;
-	private int criterionID;
+	private User user;
+	private Criterion criterion;
+	
 	// contestant , score
-	private Map<Integer,Integer> scoreMap;
+	@XmlElement(name="contestants")
+	private List<Ballot> ballots;
 	
 	public Vote() {
 		
 	}
 	
-	public Vote(int userID, int criterionID) {
+	public Vote(User user, Criterion criterion) {
 		try {
 			voteID = Integer.parseInt(MongoHelper.getNextId("voteID"));
 		} catch (NumberFormatException e) {
@@ -34,14 +35,14 @@ public class Vote extends BasicDBObject {
 			e.printStackTrace();
 		}
 		put("voteID", voteID);
-		put("userID", userID);
-		put("criterionID", criterionID);
+		put("userID", user.getUserID());
+		put("criterionID", criterion.getCriterionID());
 	}
 
-	public Vote(int voteID, int userID, int criterionID) {
+	public Vote(int voteID, User user, Criterion criterion) {
 		this.voteID = voteID;
-		this.userID = userID;
-		this.criterionID = criterionID;
+		this.user = user;
+		this.criterion = criterion;
 	}
 
 	public int getVoteID() {
@@ -52,27 +53,31 @@ public class Vote extends BasicDBObject {
 		this.voteID = voteID;
 	}
 
-	public int getUserID() {
-		return userID;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public int getCriterionID() {
-		return criterionID;
+	public Criterion getCriterion() {
+		return criterion;
 	}
 
-	public void setCriterionID(int criterionID) {
-		this.criterionID = criterionID;
+	public void setCriterion(Criterion criterion) {
+		this.criterion = criterion;
 	}
 
-	public Map<Integer, Integer> getScoreMap() {
-		return scoreMap;
+	public List<Ballot> getBallots() {
+		return this.ballots;
 	}
 
-	public void setScoreMap(Map<Integer, Integer> scoreMap) {
-		this.scoreMap = scoreMap;
+	public void setBallots(List<Ballot> ballots) {
+		this.ballots = ballots;
+	}
+	
+	public void addBallot(Ballot ballot) {
+		this.ballots.add(ballot);
 	}
 }

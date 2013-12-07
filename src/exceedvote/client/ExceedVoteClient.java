@@ -47,15 +47,10 @@ public class ExceedVoteClient {
 	}*/
 		Contestant con = new Contestant("test", "ggwp");
 		Contestant con2 = new Contestant("test2", "ggwp2");
-		try {
-			MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
-			contestantDAO.save(con);
-			contestantDAO.save(con2);
-			Contestant con3 = contestantDAO.findById(1);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+		contestantDAO.save(con);
+		contestantDAO.save(con2);
+		Contestant con3 = contestantDAO.findById(1);
+		System.out.println(con3);
 	}	
 }
