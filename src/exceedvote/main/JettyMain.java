@@ -120,8 +120,12 @@ public class JettyMain {
 		ConstraintHelper root = new ConstraintHelper("root page", "test", new String[]{"user","admin","test"}, "/*", true);
         constraintMappings.add(root.getConstraintMapping());
         
-        ConstraintHelper contestants = new ConstraintHelper("contestant", "admin", new String[]{"admin","test"}, "/contestant", true);
+        ConstraintHelper contestants = new ConstraintHelper("contestant", "admin", new String[]{"test"}, "/contestant", true);
         constraintMappings.add(contestants.getConstraintMapping());
+        
+        ConstraintHelper criteria = new ConstraintHelper("criteria", "admin", new String[]{"test"}, "/criteria/*", true);
+        constraintMappings.add(criteria.getConstraintMapping());
+        
 		
         security.setConstraintMappings(constraintMappings);
 	}
