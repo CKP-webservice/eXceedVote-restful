@@ -115,11 +115,8 @@ public class JettyMain {
 		realm.putUser("username",new Password("password"),new String[]{"voter"});
 //		Role r = new Role("voter", 10);
 //		MongoDaoFactory.getInstance().getRoleDAO().save(r);
-//		User u = new User(MongoDaoFactory.getInstance().getRoleDAO().findById(1),MongoDaoFactory.getInstance().getContestantDAO().findById(67),"username","password","u@u.com");
-//		u.setRole(MongoDaoFactory.getInstance().getRoleDAO().findById(1));
+//		User u = new User(MongoDaoFactory.getInstance().getRoleDAO().findById(1),MongoDaoFactory.getInstance().getContestantDAO().findById(67),"5610040094","5610040094","5610040094@ku.ac.th");
 //		MongoDaoFactory.getInstance().getUserDAO().save(u);
-//		realm.putUser("pawis",new Password("pawis"),new String[]{"voter"});
-//		realm.putUser("kanin",new Password("kanin"),new String[]{"voter"});
 		server.addBean(realm);
         security.setLoginService(realm);
 	}
