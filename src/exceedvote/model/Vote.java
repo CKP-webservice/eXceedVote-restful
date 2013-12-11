@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.mongodb.BasicDBObject;
 
@@ -18,7 +19,9 @@ public class Vote extends BasicDBObject {
 	private static final long serialVersionUID = 1L;
 	@XmlElement(name="id")
 	private int voteID;
+	@XmlTransient
 	private User user;
+	@XmlElement
 	private Criterion criterion;
 	
 	// contestant , score

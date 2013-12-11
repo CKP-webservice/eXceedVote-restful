@@ -3,6 +3,10 @@ package exceedvote.resource;
 import java.io.IOException;
 
 
+
+import java.util.List;
+
+
 //import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,9 +23,11 @@ import org.eclipse.persistence.descriptors.VPDMultitenantPolicy;
 
 import com.sun.security.auth.UserPrincipal;
 
+import exceedvote.model.Ballot;
 import exceedvote.model.ContestantList;
 import exceedvote.model.CriterionList;
 import exceedvote.model.Vote;
+import exceedvote.model.VoteList;
 import exceedvote.model.dao.mongo.MongoDaoFactory;
 
 @Path("/")
@@ -81,9 +87,11 @@ public class ExceedVoteResource {
 	@Path("criteria/{id}/vote")
 	@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response makeVote(@Context SecurityContext sec,@PathParam("id") int id,Vote vote) {
+		Vote vS = new Vote(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()),vote.getCriterion());
 		//vote.setUser(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()));
-		//System.out.println(vote.get("user"));
-		//MongoDaoFactory.getInstance().getVoteDAO().save(vote);
+		System.out.println(vote.getBallots());
+		
+		MongoDaoFactory.getInstance().getVoteDAO().save(vS);
 		return Response.ok().build();
 	}
 	
@@ -91,10 +99,19 @@ public class ExceedVoteResource {
 	@Path("myvote")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response myvote(@Context SecurityContext sec){
+		System.out.println(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()).getUserID());
+		
+		VoteList vl = new VoteList();
+		List<Vote> v2 = MongoDaoFactory.getInstance().getVoteDAO().findByUserId(1);
+		for(int i = 0; i < v2.size(); i++) {
+			List<Ballot> ballots = MongoDaoFactory.getInstance().getBallotDAO().findByVoteId(v2.get(i).getVoteID());
+			v2.get(i).setBallots(ballots);
+		}
+		vl.setVoteList(v2);
 		try {
-			return Response.ok().entity(MongoDaoFactory.getInstance().getVoteDAO().findAll()).build();
+			return Response.ok().entity(vl).build();
 		} catch (NullPointerException npe) {
-			return Response.ok().entity(new Vote()).build();
+			return Response.noContent().build();
 		}
 	}
 	

@@ -14,6 +14,7 @@ public class MongoDaoFactory {
 	private MongoCriterionDAO criterionDAO;
 	private MongoUserDAO userDAO;
 	private MongoRoleDAO roleDAO;
+	private MongoBallotDAO ballotDAO;
 	
 	private static MongoDaoFactory daoFactory;
 	public static MongoDaoFactory getInstance()
@@ -58,6 +59,11 @@ public class MongoDaoFactory {
 	public MongoRoleDAO getRoleDAO() {
 		if(this.roleDAO == null) this.roleDAO = new MongoRoleDAO(db);
 		return this.roleDAO;
+	}
+	
+	public MongoBallotDAO getBallotDAO() {
+		if(this.ballotDAO == null) this.ballotDAO = new MongoBallotDAO(db);
+		return this.ballotDAO;
 	}
 	
 	public DB getDB() {

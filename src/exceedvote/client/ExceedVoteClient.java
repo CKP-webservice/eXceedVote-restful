@@ -45,21 +45,21 @@ public class ExceedVoteClient {
 	  }
  
 	}*/
-		Contestant con = new Contestant("test", "ggwp");
-		Criterion cri = new Criterion("lol");
-		MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
-		MongoCriterionDAO criterionDAO = MongoDaoFactory.getInstance().getCriterionDAO();
-		criterionDAO.save(cri);
-		contestantDAO.save(con);
-		Ballot ballot = new Ballot(1, 1);
-		List<Ballot> ballots = new ArrayList<Ballot>();
-		ballots.add(ballot);
-		Role role = new Role("name", 5);
-		User user = new User(role, con, "username", "password", "email");
-		MongoUserDAO userDAO = MongoDaoFactory.getInstance().getUserDAO();
-		MongoVoteDAO voteDAO = MongoDaoFactory.getInstance().getVoteDAO();
-		Vote vote = new Vote(user, cri, ballots);
-		userDAO.save(user);
-		voteDAO.save(vote);
+//		Contestant con = new Contestant("test", "ggwp");
+//		Criterion cri = new Criterion("lol");
+//		MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+//		MongoCriterionDAO criterionDAO = MongoDaoFactory.getInstance().getCriterionDAO();
+//		criterionDAO.save(cri);
+//		contestantDAO.save(con);
+//		Ballot ballot = new Ballot(1, 1);
+//		List<Ballot> ballots = new ArrayList<Ballot>();
+//		ballots.add(ballot);
+//		Role role = new Role("name", 5);
+//		User user = new User(role, con, "username", "password", "email");
+//		MongoUserDAO userDAO = MongoDaoFactory.getInstance().getUserDAO();
+//		MongoVoteDAO voteDAO = MongoDaoFactory.getInstance().getVoteDAO();
+//		Vote vote = new Vote(user, cri, ballots);
+//		userDAO.save(user);
+//		voteDAO.save(vote);
 	}	
 }
