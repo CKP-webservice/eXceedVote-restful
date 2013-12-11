@@ -59,6 +59,7 @@ public class User extends BasicDBObject {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
+		put("userID", userID);
 	}
 
 	public Role getRole() {
@@ -67,6 +68,7 @@ public class User extends BasicDBObject {
 
 	public void setRole(Role role) {
 		this.role = role;
+		put("roleID", role.getRoleID());
 	}
 
 	public Contestant getContestant() {
@@ -75,6 +77,7 @@ public class User extends BasicDBObject {
 
 	public void setContestant(Contestant contestant) {
 		this.contestant = contestant;
+		put("contestantID", contestant.getContestantID());
 	}
 
 	public String getUsername() {
@@ -83,6 +86,7 @@ public class User extends BasicDBObject {
 
 	public void setUsername(String username) {
 		this.username = username;
+		put("username", username);
 	}
 
 	public String getPassword() {
@@ -91,6 +95,7 @@ public class User extends BasicDBObject {
 
 	public void setPassword(String password) {
 		this.password = password;
+		put("password", password);
 	}
 
 	public String getEmail() {
@@ -99,5 +104,6 @@ public class User extends BasicDBObject {
 
 	public void setEmail(String email) {
 		this.email = email;
+		put("email", email);
 	}
 }

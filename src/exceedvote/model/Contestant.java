@@ -51,6 +51,7 @@ public class Contestant extends BasicDBObject {
 
 	public void setContestantID(int contestantID) {
 		this.contestantID = contestantID;
+		put("contestantID", contestantID);
 	}
 
 	public String getName() {
@@ -59,6 +60,7 @@ public class Contestant extends BasicDBObject {
 
 	public void setName(String name) {
 		this.name = name;
+		put("name", name);
 	}
 
 	public String getDescription() {
@@ -67,5 +69,6 @@ public class Contestant extends BasicDBObject {
 
 	public void setDescription(String description) {
 		this.description = description;
+		put("description", description);
 	}
 }

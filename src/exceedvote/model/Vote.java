@@ -29,7 +29,7 @@ public class Vote extends BasicDBObject {
 		
 	}
 	
-	public Vote(User user, Criterion criterion, List<Ballot> ballots) {
+	public Vote(User user, Criterion criterion) {
 		try {
 			voteID = Integer.parseInt(MongoHelper.getNextId("voteID"));
 		} catch (NumberFormatException e) {
@@ -40,7 +40,8 @@ public class Vote extends BasicDBObject {
 		put("voteID", voteID);
 		put("userID", user.getUserID());
 		put("criterionID", criterion.getCriterionID());
-		put("ballots", ballots);
+		this.user = user;
+		this.criterion = criterion;
 	}
 
 	public Vote(int voteID, User user, Criterion criterion) {
@@ -55,6 +56,7 @@ public class Vote extends BasicDBObject {
 
 	public void setVoteID(int voteID) {
 		this.voteID = voteID;
+		put("voteID", voteID);
 	}
 
 	public User getUser() {
@@ -63,6 +65,7 @@ public class Vote extends BasicDBObject {
 
 	public void setUser(User user) {
 		this.user = user;
+		put("userID", user.getUserID());
 	}
 
 	public Criterion getCriterion() {
@@ -71,6 +74,7 @@ public class Vote extends BasicDBObject {
 
 	public void setCriterion(Criterion criterion) {
 		this.criterion = criterion;
+		put("criterionID", criterion.getCriterionID());
 	}
 
 	public List<Ballot> getBallots() {

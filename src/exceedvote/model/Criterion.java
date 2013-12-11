@@ -47,6 +47,7 @@ public class Criterion extends BasicDBObject {
 
 	public void setCriterionID(int criterionID) {
 		this.criterionID = criterionID;
+		put("criterionID", criterionID);
 	}
 
 	public String getName() {
@@ -55,5 +56,6 @@ public class Criterion extends BasicDBObject {
 
 	public void setName(String name) {
 		this.name = name;
+		put("name", name);
 	}
 }

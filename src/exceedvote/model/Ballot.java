@@ -1,5 +1,7 @@
 package exceedvote.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -7,8 +9,11 @@ import com.mongodb.BasicDBObject;
 
 
 @XmlRootElement(name="contestant")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Ballot extends BasicDBObject {
-	@XmlElement(name="id")
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private int contestantID;
 	private int score;
@@ -17,8 +22,11 @@ public class Ballot extends BasicDBObject {
 		
 	}
 	
-	public Ballot(int contestantID, int score) {
+	public Ballot(int contestantID, int score, int voteID) {
 		super();
+		put("contestantID", contestantID);
+		put("score", score);
+		put("voteID", voteID);
 		this.contestantID = contestantID;
 		this.score = score;
 	}
@@ -34,6 +42,7 @@ public class Ballot extends BasicDBObject {
 	 */
 	public void setContestant(int contestant) {
 		this.contestantID = contestant;
+		put("contestantID", contestant);
 	}
 	/**
 	 * @return the score
@@ -46,5 +55,6 @@ public class Ballot extends BasicDBObject {
 	 */
 	public void setScore(int score) {
 		this.score = score;
+		put("score", score);
 	}
 }
