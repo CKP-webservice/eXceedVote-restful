@@ -90,9 +90,9 @@ public class ExceedVoteResource {
 		Vote vS = new Vote(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()),vote.getCriterion());
 		//vote.setUser(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()));
 		for(Ballot ballot : vote.getBallots()) {
-			System.out.println(ballot.getScore());
+			Ballot b = new Ballot(ballot.getContestant(), ballot.getScore(), vS.getVoteID());
+			MongoDaoFactory.getInstance().getBallotDAO().save(b);
 		}
-		
 		MongoDaoFactory.getInstance().getVoteDAO().save(vS);
 		return Response.ok().build();
 	}
