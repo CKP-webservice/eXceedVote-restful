@@ -89,7 +89,9 @@ public class ExceedVoteResource {
 	public Response makeVote(@Context SecurityContext sec,@PathParam("id") int id,Vote vote) {
 		Vote vS = new Vote(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()),vote.getCriterion());
 		//vote.setUser(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()));
-		System.out.println(vote.getBallots());
+		for(Ballot ballot : vote.getBallots()) {
+			System.out.println(ballot.getScore());
+		}
 		
 		MongoDaoFactory.getInstance().getVoteDAO().save(vS);
 		return Response.ok().build();

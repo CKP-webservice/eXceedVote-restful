@@ -15,9 +15,8 @@ public class Ballot extends BasicDBObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@XmlElement
+	@XmlElement(name="id")
 	private int contestantID;
-	@XmlElement
 	private int score;
 	
 	public Ballot() {
