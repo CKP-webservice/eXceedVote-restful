@@ -42,6 +42,11 @@ public class User extends BasicDBObject {
 		put("username", username);
 		put("password", password);
 		put("email", email);
+		this.role = role;
+		this.contestant = contestant;
+		this.username = username;
+		this.password = password;
+		this.email = email;
 	}
 
 	public User(int userID, Role role, Contestant contestant, String username, String password, String email) {

@@ -37,6 +37,8 @@ public class Contestant extends BasicDBObject {
 		put("contestantID", contestantID);
 		put("name", name);
 		put("description", description);
+		this.name = name;
+		this.description = description;
 	}
 	
 	public Contestant(int contestantID, String name, String description) {
