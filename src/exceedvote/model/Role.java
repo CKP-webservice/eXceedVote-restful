@@ -46,6 +46,7 @@ public class Role extends BasicDBObject {
 
 	public void setRoleID(int roleID) {
 		this.roleID = roleID;
+		put("roleID", roleID);
 	}
 
 	public String getName() {
@@ -54,6 +55,7 @@ public class Role extends BasicDBObject {
 
 	public void setName(String name) {
 		this.name = name;
+		put("name", name);
 	}
 
 	public int getCriterionVote() {
@@ -62,5 +64,6 @@ public class Role extends BasicDBObject {
 
 	public void setCriterionVote(int criterionVote) {
 		this.criterionVote = criterionVote;
+		put("criterionVote", criterionVote);
 	}
 }
