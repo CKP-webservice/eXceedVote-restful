@@ -73,6 +73,29 @@ public class MongoUserDAO {
 		return user;
 	}
 	
+	public User findByUsername(String name) {
+		BasicDBObject query = new BasicDBObject("username", name);
+		DBCursor cursor = coll.find(query);
+		User user = null;
+		try {
+			DBObject DBObj = cursor.next();
+			Integer userID = (Integer) DBObj.get("userID");
+			Integer roleID = (Integer) DBObj.get("roleID");
+			MongoRoleDAO roleDAO = MongoDaoFactory.getInstance().getRoleDAO();
+			MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+			Role role = roleDAO.findById(roleID); 
+			Integer contestantID = (Integer) DBObj.get("contestantID");
+			Contestant contestant = contestantDAO.findById(contestantID);
+			String username = (String) DBObj.get("username");
+			String password = (String) DBObj.get("password");
+			String email = (String) DBObj.get("email");
+			user = new User(userID, role, contestant, username, password, email);
+		} finally {
+		   cursor.close();
+		}
+		return user;
+	}
+	
 	public void save(User user) {
 		coll.save(user);
 	}
