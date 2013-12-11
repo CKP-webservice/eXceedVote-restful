@@ -1,15 +1,6 @@
 package exceedvote.client;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.HTTPDigestAuthFilter;
 
 import exceedvote.model.Ballot;
 import exceedvote.model.Contestant;

@@ -75,14 +75,14 @@ public class JettyMain {
 		context.setContextPath(path);
 		context.addServlet(sh, "/*");
 		
-//		HashLoginService realm = new HashLoginService("EXCEEDVOTE");
-//		realm.putUser("testuser",new Password("password"),new String[]{"test"});
-//        server.addBean(realm);
-//        ConstraintSecurityHandler security=(ConstraintSecurityHandler) context.getSecurityHandler();
-//        security.setAuthenticator(new DigestAuthenticator());
-//        security.setLoginService(realm);
-//        
-//        setConstraint(security);
+		
+        ConstraintSecurityHandler security =(ConstraintSecurityHandler) context.getSecurityHandler();
+        security.setAuthenticator(new DigestAuthenticator());
+        
+        
+        addUser(security,server);
+        
+        setConstraint(security);
         
         HandlerCollection handlers = new HandlerCollection();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -106,6 +106,14 @@ public class JettyMain {
 		
 	}
 	
+	private static void addUser(ConstraintSecurityHandler security,Server server) {
+		HashLoginService realm = new HashLoginService("EXCEEDVOTE");
+		realm.putUser("testuser",new Password("password"),new String[]{"test"});
+        server.addBean(realm);
+        
+        security.setLoginService(realm);
+	}
+
 	private static void setConstraint(ConstraintSecurityHandler security) {
 		List<ConstraintMapping> constraintMappings = new ArrayList<ConstraintMapping>();
         

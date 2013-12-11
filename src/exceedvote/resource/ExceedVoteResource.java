@@ -2,6 +2,7 @@ package exceedvote.resource;
 
 import java.io.IOException;
 
+
 //import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,6 +14,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import org.eclipse.persistence.descriptors.VPDMultitenantPolicy;
 
 import com.sun.security.auth.UserPrincipal;
 
@@ -30,8 +33,16 @@ public class ExceedVoteResource {
 	//@RolesAllowed({"admin"})
 	@Produces(MediaType.TEXT_HTML)
 	public Response get(@Context SecurityContext sec) {
-		return Response.ok().entity("<html><head><title>WORKING</title></head><body>SERVER IS WORKING</body></html>").build();
-		
+		String username = sec.getUserPrincipal().getName();
+		int contestant = MongoDaoFactory.getInstance().getContestantDAO().findAll().size();
+		int criteria = MongoDaoFactory.getInstance().getCriterionDAO().findAll().size();
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><head><title>WORKING</title></head><body>SERVER IS WORKING<br>");
+		sb.append("Username : ").append(username).append("<br>");
+		sb.append("Contestant Count : ").append(contestant).append("<br>");
+		sb.append("Criteria Count : ").append(criteria).append("<br>");
+		sb.append("</body></html>");
+		return Response.ok().entity(sb.toString()).build();
 	}
 	
 	@GET
@@ -78,7 +89,11 @@ public class ExceedVoteResource {
 	@Path("myvote")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response myvote(@Context SecurityContext sec){
-		return Response.ok().entity(MongoDaoFactory.getInstance().getVoteDAO().findAll()).build();
+		try {
+			return Response.ok().entity(MongoDaoFactory.getInstance().getVoteDAO().findAll()).build();
+		} catch (NullPointerException npe) {
+			return Response.ok().entity(new Vote()).build();
+		}
 	}
 	
 	@GET
