@@ -21,9 +21,13 @@ import org.eclipse.jetty.util.security.Constraint;
 import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
+import com.mongodb.Mongo;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 import exceedvote.helper.ConstraintHelper;
+import exceedvote.model.Role;
+import exceedvote.model.User;
+import exceedvote.model.dao.mongo.MongoDaoFactory;
 
 /**
  * Deploy a RESTful server using Jersey in an embedded Jetty server.
@@ -80,7 +84,7 @@ public class JettyMain {
         security.setAuthenticator(new DigestAuthenticator());
         
         
-        addUser(security,server);
+        manageUser(security,server);
         
         setConstraint(security);
         
@@ -106,25 +110,31 @@ public class JettyMain {
 		
 	}
 	
-	private static void addUser(ConstraintSecurityHandler security,Server server) {
+	private static void manageUser(ConstraintSecurityHandler security,Server server) {
 		HashLoginService realm = new HashLoginService("EXCEEDVOTE");
-		realm.putUser("testuser",new Password("password"),new String[]{"test"});
-        server.addBean(realm);
-        
+		realm.putUser("username",new Password("password"),new String[]{"voter"});
+//		Role r = new Role("voter", 10);
+//		MongoDaoFactory.getInstance().getRoleDAO().save(r);
+//		User u = new User(MongoDaoFactory.getInstance().getRoleDAO().findById(1),MongoDaoFactory.getInstance().getContestantDAO().findById(67),"username","password","u@u.com");
+//		u.setRole(MongoDaoFactory.getInstance().getRoleDAO().findById(1));
+//		MongoDaoFactory.getInstance().getUserDAO().save(u);
+//		realm.putUser("pawis",new Password("pawis"),new String[]{"voter"});
+//		realm.putUser("kanin",new Password("kanin"),new String[]{"voter"});
+		server.addBean(realm);
         security.setLoginService(realm);
 	}
 
 	private static void setConstraint(ConstraintSecurityHandler security) {
 		List<ConstraintMapping> constraintMappings = new ArrayList<ConstraintMapping>();
         
-		ConstraintHelper root = new ConstraintHelper("root page", "test", new String[]{"user","admin","test"}, "/*", true);
+		ConstraintHelper root = new ConstraintHelper("root page", "test", new String[]{"user","admin","voter"}, "/*", true);
         constraintMappings.add(root.getConstraintMapping());
         
-        ConstraintHelper contestants = new ConstraintHelper("contestant", "admin", new String[]{"test"}, "/contestant", true);
-        constraintMappings.add(contestants.getConstraintMapping());
-        
-        ConstraintHelper criteria = new ConstraintHelper("criteria", "admin", new String[]{"test"}, "/criteria/*", true);
-        constraintMappings.add(criteria.getConstraintMapping());
+//        ConstraintHelper contestants = new ConstraintHelper("contestant", "admin", new String[]{"test"}, "/contestant", true);
+//        constraintMappings.add(contestants.getConstraintMapping());
+//        
+//        ConstraintHelper criteria = new ConstraintHelper("criteria", "admin", new String[]{"test"}, "/criteria/*", true);
+//        constraintMappings.add(criteria.getConstraintMapping());
         
 		
         security.setConstraintMappings(constraintMappings);

@@ -82,7 +82,7 @@ public class ExceedVoteResource {
 	@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response makeVote(@Context SecurityContext sec,@PathParam("id") int id,Vote vote) {
 		//vote.setUser(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()));
-		System.out.println("voted");
+		//System.out.println(vote.get("user"));
 		//MongoDaoFactory.getInstance().getVoteDAO().save(vote);
 		return Response.ok().build();
 	}
