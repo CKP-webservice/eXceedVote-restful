@@ -34,6 +34,7 @@ public class Criterion extends BasicDBObject {
 		}
 		put("criterionID", criterionID);
 		put("name", name);
+		this.name = name;
 	}
 
 	public Criterion(int criterionID, String name) {
