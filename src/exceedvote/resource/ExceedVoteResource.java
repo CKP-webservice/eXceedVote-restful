@@ -103,10 +103,8 @@ public class ExceedVoteResource {
 	@Path("myvote")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response myvote(@Context SecurityContext sec){
-		System.out.println(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()).getUserID());
-		
 		VoteList vl = new VoteList();
-		List<Vote> v2 = MongoDaoFactory.getInstance().getVoteDAO().findByUserId(1);
+		List<Vote> v2 = MongoDaoFactory.getInstance().getVoteDAO().findByUserId(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()).getUserID());
 		for(int i = 0; i < v2.size(); i++) {
 			List<Ballot> ballots = MongoDaoFactory.getInstance().getBallotDAO().findByVoteId(v2.get(i).getVoteID());
 			v2.get(i).setBallots(ballots);

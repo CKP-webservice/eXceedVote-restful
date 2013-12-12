@@ -159,7 +159,7 @@ public class JettyMain {
 	
 	public static void main(String[] args) throws BindException, Exception {
 		int port = 8080;
-		String path = "/";
+		String path = "/exceedvote";
 		if (args.length > 0) try {
 			port = Integer.valueOf(args[0]);
 			if (args.length > 1) {
