@@ -48,8 +48,9 @@ public class ExceedVoteResource {
 	
 	@GET
 	//@RolesAllowed({"admin"})
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.APPLICATION_XML)
 	public Response get(@Context SecurityContext sec) {
+<<<<<<< HEAD
 		String username = sec.getUserPrincipal().getName();
 		int contestant = contestantDAO.findAll().size();
 		int criteria = criterionDAO.findAll().size();
@@ -59,6 +60,18 @@ public class ExceedVoteResource {
 		sb.append("Contestant Count : ").append(contestant).append("<br>");
 		sb.append("Criteria Count : ").append(criteria).append("<br>");
 		sb.append("</body></html>");
+=======
+//		String username = sec.getUserPrincipal().getName();
+//		int contestant = MongoDaoFactory.getInstance().getContestantDAO().findAll().size();
+//		int criteria = MongoDaoFactory.getInstance().getCriterionDAO().findAll().size();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("<html><head><title>WORKING</title></head><body>SERVER IS WORKING<br>");
+//		sb.append("Username : ").append(username).append("<br>");
+//		sb.append("Contestant Count : ").append(contestant).append("<br>");
+//		sb.append("Criteria Count : ").append(criteria).append("<br>");
+//		sb.append("</body></html>");
+		String sb = "<link rel=\"criterion\" href=\"http://127.0.0.1:8080/exceedvote/api/v1/criterion\"/><link rel=\"contestant\" href=\"http://127.0.0.1:8080/exceedvote/api/v1/contestant\"/><link rel=\"myvote\" href=\"http://127.0.0.1:8080/exceedvote/api/v1/myvote\"/>";
+>>>>>>> f2ce1377bf46ede988b60aa7b3c492206aa16859
 		return Response.ok().entity(sb.toString()).build();
 	}
 	
