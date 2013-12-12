@@ -91,6 +91,30 @@ public class MongoVoteDAO {
 		return votes;
 	}
 	
+	public List<Vote> findByCriterionId(int id) {
+		List<Vote> votes = new ArrayList<Vote>();
+		BasicDBObject query = new BasicDBObject("criterionID", id);
+		DBCursor cursor = coll.find(query);
+		Vote vote = null;
+		try {
+			while(cursor.hasNext()) {
+				DBObject DBObj = cursor.next();
+				Integer voteID = (Integer) DBObj.get("voteID");
+				MongoUserDAO userDAO = MongoDaoFactory.getInstance().getUserDAO();
+				MongoCriterionDAO criterionDAO = MongoDaoFactory.getInstance().getCriterionDAO();
+				Integer userID = (Integer) DBObj.get("userID");
+				User user = userDAO.findById(userID);
+				Integer criterionID = (Integer) DBObj.get("criterionID");
+				Criterion criterion = criterionDAO.findById(criterionID);
+				vote = new Vote(voteID, user, criterion);
+				votes.add(vote);
+			}
+		} finally {
+		   cursor.close();
+		}
+		return votes;
+	}
+	
 	
 	public void save(Vote vote) {
 		coll.save(vote);

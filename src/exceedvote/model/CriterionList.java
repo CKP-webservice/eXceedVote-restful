@@ -3,11 +3,13 @@ package exceedvote.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="criteria")
 public class CriterionList {
 
+	@XmlElement(name="criterion")
 	private List<Criterion> criterionList;
 
 	public CriterionList() {

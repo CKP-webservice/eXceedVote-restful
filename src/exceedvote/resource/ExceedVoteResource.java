@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 
+
 //import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -26,6 +27,7 @@ import com.sun.security.auth.UserPrincipal;
 import exceedvote.model.Ballot;
 import exceedvote.model.ContestantList;
 import exceedvote.model.CriterionList;
+import exceedvote.model.Rank;
 import exceedvote.model.Vote;
 import exceedvote.model.VoteList;
 import exceedvote.model.dao.mongo.MongoDaoFactory;
@@ -87,7 +89,7 @@ public class ExceedVoteResource {
 	@Path("criteria/{id}/vote")
 	@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response makeVote(@Context SecurityContext sec,@PathParam("id") int id,Vote vote) {
-		Vote vS = new Vote(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()),vote.getCriterion());
+		Vote vS = new Vote(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()), MongoDaoFactory.getInstance().getCriterionDAO().findById(id));
 		//vote.setUser(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()));
 		for(Ballot ballot : vote.getBallots()) {
 			Ballot b = new Ballot(ballot.getContestant(), ballot.getScore(), vS.getVoteID());
@@ -121,6 +123,7 @@ public class ExceedVoteResource {
 	@Path("rank")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getRank(@Context SecurityContext sec) {
-		return Response.ok().entity(MongoDaoFactory.getInstance()).build();
+		Rank rank = new Rank();
+		return Response.ok().entity(rank).build();
 	}
 }

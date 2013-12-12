@@ -12,6 +12,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 import exceedvote.model.Ballot;
+import exceedvote.model.Contestant;
 import exceedvote.model.Vote;
 
 public class MongoBallotDAO {
@@ -22,9 +23,53 @@ public class MongoBallotDAO {
 		coll.setObjectClass(Ballot.class);
 	}
 	
+	public List<Ballot> findAll() {
+		List<Ballot> ballots = new ArrayList<Ballot>();
+		DBCursor cursor = coll.find();
+		Ballot ballot = null;
+		try {
+			while(cursor.hasNext()) {
+				DBObject DBObj = cursor.next();
+				Integer voteID = (Integer) DBObj.get("voteID");
+				Integer contestantID = (Integer) DBObj.get("contestantID");
+				Integer score = (Integer) DBObj.get("score");
+				ballot = new Ballot(contestantID, score, voteID);
+				ballots.add(ballot);
+			}
+		} finally {
+		   cursor.close();
+		}
+		return ballots;
+	}
+	
 	public List<Ballot> findByVoteId(int id) {
 		List<Ballot> ballots = new ArrayList<Ballot>();
 		BasicDBObject query = new BasicDBObject("voteID", id);
+		DBCursor cursor = coll.find(query);
+		Ballot ballot = null;
+		try {
+			while(cursor.hasNext()) {
+				DBObject DBObj = cursor.next();
+				Integer voteID = (Integer) DBObj.get("voteID");
+				Integer contestantID = (Integer) DBObj.get("contestantID");
+				Integer score = (Integer) DBObj.get("score");
+				ballot = new Ballot(contestantID, score, voteID);
+				ballots.add(ballot);
+			}
+		} finally {
+		   cursor.close();
+		}
+		return ballots;
+	}
+	
+	public List<Ballot> findByVoteAndContestantId(int vID, int cID) {
+		List<Ballot> ballots = new ArrayList<Ballot>();
+		BasicDBObject query1 = new BasicDBObject("voteID", vID); 
+		BasicDBObject query2 = new BasicDBObject("criterion", cID); 
+		ArrayList<BasicDBObject> listQuery = new ArrayList<BasicDBObject>(); 
+		listQuery.add(query1); 
+		listQuery.add(query2); 
+		BasicDBObject query = new BasicDBObject("$and", listQuery); 
 		DBCursor cursor = coll.find(query);
 		Ballot ballot = null;
 		try {

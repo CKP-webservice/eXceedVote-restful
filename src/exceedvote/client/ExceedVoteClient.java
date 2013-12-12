@@ -61,5 +61,15 @@ public class ExceedVoteClient {
 //		Vote vote = new Vote(user, cri, ballots);
 //		userDAO.save(user);
 //		voteDAO.save(vote);
+		MongoContestantDAO contestantDAO = MongoDaoFactory.getInstance().getContestantDAO();
+		MongoCriterionDAO criterionDAO = MongoDaoFactory.getInstance().getCriterionDAO();
+		Contestant con1 = new Contestant("World Note", "Best Note Application");
+		Contestant con2 = new Contestant("Physic Work!", "Best Games Ever");
+		contestantDAO.save(con1);
+		contestantDAO.save(con2);
+		Criterion cri1 = new Criterion("Popular Vote");
+		Criterion cri2 = new Criterion("Best Present");
+		criterionDAO.save(cri1);
+		criterionDAO.save(cri2);
 	}	
 }

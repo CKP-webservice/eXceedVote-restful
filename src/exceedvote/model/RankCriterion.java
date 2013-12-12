@@ -11,6 +11,10 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlRootElement(name="criterion")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RankCriterion {
+	@XmlElement(name="name")
+	private int criterionID;
+	@XmlElement(name="question")
+	private String name;
 	@XmlElementWrapper(name="contestants")
 	@XmlElement(name="contestant")
 	private List<RankScore> rankScores;
@@ -19,8 +23,26 @@ public class RankCriterion {
 		
 	}
 	
-	public RankCriterion(List<RankScore> rankScores) {
+	public RankCriterion(int criterionID, String name, List<RankScore> rankScores) {
+		this.criterionID = criterionID;
+		this.name = name;
 		this.rankScores = rankScores;
+	}
+
+	public int getCriterionID() {
+		return criterionID;
+	}
+
+	public void setCriterionID(int criterionID) {
+		this.criterionID = criterionID;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<RankScore> getrankScores() {
