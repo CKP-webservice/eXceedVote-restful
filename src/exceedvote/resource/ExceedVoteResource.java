@@ -8,6 +8,9 @@ import java.util.List;
 
 
 
+
+
+
 //import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -30,20 +33,26 @@ import exceedvote.model.CriterionList;
 import exceedvote.model.Rank;
 import exceedvote.model.Vote;
 import exceedvote.model.VoteList;
+import exceedvote.model.dao.mongo.MongoContestantDAO;
+import exceedvote.model.dao.mongo.MongoCriterionDAO;
 import exceedvote.model.dao.mongo.MongoDaoFactory;
+import exceedvote.model.dao.mongo.MongoUserDAO;
 
 @Path("api/v1/")
 public class ExceedVoteResource {
 	
-	
+	private static MongoDaoFactory daoInstance = MongoDaoFactory.getInstance();
+	private static MongoCriterionDAO criterionDAO = daoInstance.getCriterionDAO();
+	private static MongoContestantDAO contestantDAO = daoInstance.getContestantDAO();
+	private static MongoUserDAO userDAO = daoInstance.getUserDAO();
 	
 	@GET
 	//@RolesAllowed({"admin"})
 	@Produces(MediaType.TEXT_HTML)
 	public Response get(@Context SecurityContext sec) {
 		String username = sec.getUserPrincipal().getName();
-		int contestant = MongoDaoFactory.getInstance().getContestantDAO().findAll().size();
-		int criteria = MongoDaoFactory.getInstance().getCriterionDAO().findAll().size();
+		int contestant = contestantDAO.findAll().size();
+		int criteria = criterionDAO.findAll().size();
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html><head><title>WORKING</title></head><body>SERVER IS WORKING<br>");
 		sb.append("Username : ").append(username).append("<br>");
@@ -58,7 +67,7 @@ public class ExceedVoteResource {
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getContestants(@Context SecurityContext sec) {
 		ContestantList contestant = new ContestantList();
-		contestant.setContestantList( MongoDaoFactory.getInstance().getContestantDAO().findAll());
+		contestant.setContestantList( contestantDAO.findAll());
 		return Response.ok().entity(contestant).build();
 	}
 	
@@ -66,7 +75,7 @@ public class ExceedVoteResource {
 	@Path("contestant/{id}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getContestant(@Context SecurityContext sec,@PathParam("id") int id) {
-		return Response.ok().entity(MongoDaoFactory.getInstance().getContestantDAO().findById(id)).build();
+		return Response.ok().entity(contestantDAO.findById(id)).build();
 	}
 	
 	@GET
@@ -74,7 +83,7 @@ public class ExceedVoteResource {
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getCriterias(@Context SecurityContext sec) {
 		CriterionList ql = new CriterionList();
-		ql.setCriterionList(MongoDaoFactory.getInstance().getCriterionDAO().findAll());
+		ql.setCriterionList(criterionDAO.findAll());
 		return Response.ok().entity(ql).build();
 	}
 	
@@ -82,20 +91,20 @@ public class ExceedVoteResource {
 	@Path("criterion/{id}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getCriteria(@Context SecurityContext sec,@PathParam("id") int id) {
-		return Response.ok().entity(MongoDaoFactory.getInstance().getCriterionDAO().findById(id)).build();
+		return Response.ok().entity(criterionDAO.findById(id)).build();
 	}
 	
 	@POST
 	@Path("criterion/{id}/vote")
 	@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response makeVote(@Context SecurityContext sec,@PathParam("id") int id,Vote vote) {
-		Vote vS = new Vote(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()), MongoDaoFactory.getInstance().getCriterionDAO().findById(id));
-		//vote.setUser(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()));
+		Vote vS = new Vote(userDAO.findByUsername(sec.getUserPrincipal().getName()), criterionDAO.findById(id));
+		//vote.setUser(userDAO.findByUsername(sec.getUserPrincipal().getName()));
 		for(Ballot ballot : vote.getBallots()) {
 			Ballot b = new Ballot(ballot.getContestant(), ballot.getScore(), vS.getVoteID());
-			MongoDaoFactory.getInstance().getBallotDAO().save(b);
+			daoInstance.getBallotDAO().save(b);
 		}
-		MongoDaoFactory.getInstance().getVoteDAO().save(vS);
+		daoInstance.getVoteDAO().save(vS);
 		return Response.status(201).build();
 	}
 	
@@ -104,9 +113,9 @@ public class ExceedVoteResource {
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response myvote(@Context SecurityContext sec){
 		VoteList vl = new VoteList();
-		List<Vote> v2 = MongoDaoFactory.getInstance().getVoteDAO().findByUserId(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()).getUserID());
+		List<Vote> v2 = daoInstance.getVoteDAO().findByUserId(userDAO.findByUsername(sec.getUserPrincipal().getName()).getUserID());
 		for(int i = 0; i < v2.size(); i++) {
-			List<Ballot> ballots = MongoDaoFactory.getInstance().getBallotDAO().findByVoteId(v2.get(i).getVoteID());
+			List<Ballot> ballots = daoInstance.getBallotDAO().findByVoteId(v2.get(i).getVoteID());
 			v2.get(i).setBallots(ballots);
 		}
 		vl.setVoteList(v2);
