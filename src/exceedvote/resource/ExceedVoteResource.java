@@ -32,7 +32,7 @@ import exceedvote.model.Vote;
 import exceedvote.model.VoteList;
 import exceedvote.model.dao.mongo.MongoDaoFactory;
 
-@Path("/")
+@Path("api/v1/")
 public class ExceedVoteResource {
 	
 	
@@ -70,7 +70,7 @@ public class ExceedVoteResource {
 	}
 	
 	@GET
-	@Path("criteria")
+	@Path("criterion")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getCriterias(@Context SecurityContext sec) {
 		CriterionList ql = new CriterionList();
@@ -79,14 +79,14 @@ public class ExceedVoteResource {
 	}
 	
 	@GET
-	@Path("criteria/{id}")
+	@Path("criterion/{id}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response getCriteria(@Context SecurityContext sec,@PathParam("id") int id) {
 		return Response.ok().entity(MongoDaoFactory.getInstance().getCriterionDAO().findById(id)).build();
 	}
 	
 	@POST
-	@Path("criteria/{id}/vote")
+	@Path("criterion/{id}/vote")
 	@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response makeVote(@Context SecurityContext sec,@PathParam("id") int id,Vote vote) {
 		Vote vS = new Vote(MongoDaoFactory.getInstance().getUserDAO().findByUsername(sec.getUserPrincipal().getName()), MongoDaoFactory.getInstance().getCriterionDAO().findById(id));
@@ -96,7 +96,7 @@ public class ExceedVoteResource {
 			MongoDaoFactory.getInstance().getBallotDAO().save(b);
 		}
 		MongoDaoFactory.getInstance().getVoteDAO().save(vS);
-		return Response.ok().build();
+		return Response.status(201).build();
 	}
 	
 	@GET

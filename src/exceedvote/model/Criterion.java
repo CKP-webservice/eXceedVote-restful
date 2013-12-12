@@ -17,9 +17,10 @@ public class Criterion extends BasicDBObject {
 	private static final long serialVersionUID = 1L;
 	@XmlElement(name="id")
 	private int criterionID;
-	@XmlElement(name="question")
+	@XmlElement(name="name")
 	private String name;
-	
+	@XmlElement(name="type")
+	private int type = 1;
 	public Criterion() {
 		
 	}

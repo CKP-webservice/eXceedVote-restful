@@ -23,7 +23,7 @@ public class Vote extends BasicDBObject {
 	private int voteID;
 	@XmlTransient
 	private User user;
-	@XmlTransient
+	@XmlElement
 	private Criterion criterion;
 	
 	// contestant , score

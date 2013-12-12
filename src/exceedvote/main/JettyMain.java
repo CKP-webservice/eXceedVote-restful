@@ -110,13 +110,29 @@ public class JettyMain {
 		
 	}
 	
+	private static void saveUser(String username,String password,HashLoginService realm) {
+		User u = new User(MongoDaoFactory.getInstance().getRoleDAO().findById(1),MongoDaoFactory.getInstance().getContestantDAO().findById(1),username,password,"a@a.com");
+		MongoDaoFactory.getInstance().getUserDAO().save(u);
+	}
 	private static void manageUser(ConstraintSecurityHandler security,Server server) {
 		HashLoginService realm = new HashLoginService("EXCEEDVOTE");
-		realm.putUser("username",new Password("password"),new String[]{"voter"});
-//		Role r = new Role("voter", 10);
-//		MongoDaoFactory.getInstance().getRoleDAO().save(r);
-//		User u = new User(MongoDaoFactory.getInstance().getRoleDAO().findById(1),MongoDaoFactory.getInstance().getContestantDAO().findById(67),"5610040094","5610040094","5610040094@ku.ac.th");
-//		MongoDaoFactory.getInstance().getUserDAO().save(u);
+		//Role r = new Role("voter", 10);
+		//MongoDaoFactory.getInstance().getRoleDAO().save(r);
+		realm.putUser("adrian",new Password("password"),new String[]{"voter"});
+		realm.putUser("akarawit",new Password("password"),new String[]{"voter"});
+		realm.putUser("apiwat",new Password("password"),new String[]{"voter"});
+		realm.putUser("artima",new Password("password"),new String[]{"voter"});
+		realm.putUser("chanon",new Password("password"),new String[]{"voter"});
+		realm.putUser("jaktip",new Password("password"),new String[]{"voter"});
+		realm.putUser("jens",new Password("password"),new String[]{"voter"});
+		realm.putUser("kanin",new Password("password"),new String[]{"voter"});
+		realm.putUser("kanokphol",new Password("password"),new String[]{"voter"});
+		realm.putUser("kunat",new Password("password"),new String[]{"voter"});
+		realm.putUser("pawis",new Password("password"),new String[]{"voter"});
+		realm.putUser("simon",new Password("password"),new String[]{"voter"});
+		realm.putUser("thiwat",new Password("password"),new String[]{"voter"});
+		realm.putUser("witsarut",new Password("password"),new String[]{"voter"});
+		realm.putUser("jim",new Password("password"),new String[]{"voter"});
 		server.addBean(realm);
         security.setLoginService(realm);
 	}
